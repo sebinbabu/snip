@@ -1,0 +1,21 @@
+{
+  "name": "snip-server",
+  "version": "1.0.0",
+  "description": "An application server that serves snip clients",
+  "main": "index.js",
+  "repository": "git@github.com:sebinbabu/snip.git",
+  "author": "Sebin Babu",
+  "license": "MIT",
+  "private": true,
+  "dependencies": {
+    "express": "^4.16.4",
+    "mongoose": "^4.13.18",
+    "mongoose-unique-validator": "^2.0.2"
+  },
+  "devDependencies": {
+    "eslint": "^5.12.1",
+    "eslint-config-airbnb-base": "^13.1.0",
+    "eslint-plugin-import": "^2.14.0",
+    "nodemon": "^1.18.9"
+  }
+}
