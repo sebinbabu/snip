@@ -16,6 +16,10 @@ const SnipSchema = new Schema(
       type: String,
       default: '',
     },
+    content: {
+      type: String,
+      default: '',
+    },
     owner: {
       type: String,
       default: 'Guest',
@@ -54,14 +58,7 @@ SnipSchema.statics.setSnip = function setSnip(snipname, fields) {
       upsert: true,
     })
       .exec()
-      .then((doc) => {
-        if (doc) resolve(doc.toObject());
-        else {
-          const error = new Error('snip not found');
-          error.status = 500;
-          reject(error);
-        }
-      })
+      .then(doc => resolve(doc))
       .catch(error => reject(error));
   });
 };

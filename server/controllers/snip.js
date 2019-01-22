@@ -2,9 +2,19 @@ const { SnipModel } = require('../models');
 
 function setSnip(req, res, next) {
   const { snipname, ...snip } = req.body;
-  const snipKey = req.params.snipname;
+  const random = new Date()
+    .getTime()
+    .toString(36)
+    .substr(-6);
+  const snipKey = req.params.snipname || random;
   SnipModel.setSnip(snipKey, snip)
-    .then(doc => res.json(doc))
+    .then(() => {
+      res.json({
+        snipname: snipKey,
+        message: 'success',
+        status: 200,
+      });
+    })
     .catch(error => next(error));
 }
 

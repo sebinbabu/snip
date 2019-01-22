@@ -5,5 +5,6 @@ const router = express.Router();
 
 router.get('/:snipname', snipController.getSnip);
 router.post('/:snipname', snipController.setSnip);
+router.post('/', snipController.setSnip);
 
 module.exports = router;

@@ -1,5 +1,4 @@
 const express = require('express');
-const path = require('path');
 const logger = require('morgan');
 const routes = require('./routes');
 
@@ -10,7 +9,7 @@ app.use(express.urlencoded({ extended: false }));
 app.use(logger('combined'));
 
 app.use((req, res, next) => {
-  res.header('Access-Control-Allow-Origin', 'http://localhost:8080');
+  res.header('Access-Control-Allow-Origin', 'http://localhost:3001');
   res.header('Access-Control-Allow-Credentials', 'true');
   res.header(
     'Access-Control-Allow-Headers',
@@ -19,7 +18,6 @@ app.use((req, res, next) => {
   next();
 });
 
-app.use('/static', express.static(path.join(__dirname, 'static')));
 app.use('/', routes);
 
 app.use((error, req, res, next) => {

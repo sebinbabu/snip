@@ -1,6 +1,5 @@
 const mongoose = require('mongoose');
 const bcrypt = require('bcrypt');
-const uniqueValidator = require('mongoose-unique-validator');
 
 const { Schema } = mongoose;
 const SALT_WORK_FACTOR = 10;
@@ -56,7 +55,6 @@ const UserSchema = new Schema(
   },
 );
 
-UserSchema.plugin(uniqueValidator, { message: '{PATH} already exists' });
 UserSchema.pre('save', function savehook(next) {
   const user = this;
   if (!user.isModified('password')) next();
