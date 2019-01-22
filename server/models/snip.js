@@ -1,5 +1,4 @@
 const mongoose = require('mongoose');
-const uniqueValidator = require('mongoose-unique-validator');
 
 const { Schema } = mongoose;
 
@@ -33,16 +32,38 @@ const SnipSchema = new Schema(
   },
 );
 
-SnipSchema.plugin(uniqueValidator, { message: '{PATH} already exists' });
-
 SnipSchema.statics.getSnip = function getSnip(snipname, fields) {
-  return this.findOne({ snipname }, fields).exec();
+  return new Promise((resolve, reject) => {
+    this.findOne({ snipname }, fields)
+      .exec()
+      .then((doc) => {
+        if (doc && !doc.deleted) resolve(doc.toObject());
+        else {
+          const error = new Error('snip not found');
+          error.status = 500;
+          reject(error);
+        }
+      })
+      .catch(error => reject(error));
+  });
 };
 
-SnipSchema.statics.createSnip = function createSnip(fields) {
-  return this.findOneAndUpdate({ snipname: fields.snipname }, fields, {
-    upsert: true,
-  }).exec();
+SnipSchema.statics.setSnip = function setSnip(snipname, fields) {
+  return new Promise((resolve, reject) => {
+    this.findOneAndUpdate({ snipname }, fields, {
+      upsert: true,
+    })
+      .exec()
+      .then((doc) => {
+        if (doc) resolve(doc.toObject());
+        else {
+          const error = new Error('snip not found');
+          error.status = 500;
+          reject(error);
+        }
+      })
+      .catch(error => reject(error));
+  });
 };
 
 const Snip = mongoose.model('Snip', SnipSchema);
